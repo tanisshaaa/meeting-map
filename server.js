@@ -1,11 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
+
+// Serve index.html for the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 
 app.post('/api/interest', async (req, res) => {
   const { email, phone, label, size } = req.body;
